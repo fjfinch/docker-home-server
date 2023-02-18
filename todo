@@ -1,0 +1,44 @@
+--pihole
+sudo docker volume create dns_stack_pihole
+sudo pihole -a -p
+add block lists
+	https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt			Advertising
+	https://v.firebog.net/hosts/AdguardDNS.txt							Advertising
+	https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt		Tracking & Telemetry
+	https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts			Tracking & Telemetry
+	https://v.firebog.net/hosts/Easyprivacy.txt							Tracking & Telemetry
+	https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn/hosts		Porn
+add whitelist domains
+	edge.activity.windows.com
+	s.shopify.com
+	self.events.data.microsoft.com
+update gravity
+
+--unbound
+
+--grafana
+sudo docker volume create monitoring_stack_grafana
+
+--prometheus
+sudo docker volume create monitoring_stack_prometheus
+
+--node_exporter
+
+
+timouts and intervals testen
+prometheus config
+node exporter config
+github
+ansible
+
+docker-home-server
+└── docker
+    ├── stack_dns
+    │   ├── pihole
+    │   └── unbound
+    └── stack_monitoring
+        ├── grafana
+        └── prometheus
+            node exporter
+            speedtest-cli?
+    ansible

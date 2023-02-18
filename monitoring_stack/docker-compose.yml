@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    hostname: prometheus
+    networks:
+      - stack_monitoring
+    ports:
+      - 9090:9090/tcp
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Amsterdam
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - stack_monitoring_prometheus:/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      #- '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      #- '--web.console.templates=/usr/share/prometheus/consoles'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    hostname: grafana
+    networks:
+      - stack_monitoring
+    ports:
+      - 3000:3000/tcp
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Amsterdam
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - stack_monitoring_grafana:/var/lib/grafana/
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    hostname: node_exporter
+    networks:
+      - stack_monitoring
+    expose:
+      - 9100/tcp
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Amsterdam
+      collector: systemd # extra collector??
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    command:
+      - '--path.rootfs=/host'
+
+volumes:
+  stack_monitoring_grafana:
+    external: true
+  stack_monitoring_prometheus:
+    external: true
+
+networks:
+  stack_monitoring:
+    name: stack_monitoring
+
+
+# depends_on?

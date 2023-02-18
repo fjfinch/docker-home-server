@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    hostname: pihole
+    networks:
+      - dns_stack_bridge
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 8000:80/tcp
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Amsterdam
+      FTLCONF_LOCAL_IPV4: 192.168.178.6
+      PIHOLE_DNS_: unbound#53
+      DNSMASQ_LISTENING: all
+      DNS_FQDN_REQUIRED: "true"
+      DNS_BOGUS_PRIV: "true"
+      DNSSEC: "true"
+      REV_SERVER: "true"
+      REV_SERVER_CIDR: 192.168.178.0/24
+      REV_SERVER_TARGET: 192.168.178.1
+      WEBTHEME: default-darker
+    volumes:
+      - ./pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/
+      - dns_stack_pihole:/etc/pihole/
+
+  unbound:
+    image: mvance/unbound-rpi:latest
+    container_name: unbound
+    hostname: unbound
+    networks:
+      - dns_stack_bridge
+    expose:
+      - 53/tcp
+      - 53/udp
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Amsterdam
+    volumes:
+      - ./unbound/unbound.conf:/opt/unbound/etc/unbound/unbound.conf
+    cap_add:
+      - NET_ADMIN
+
+volumes:
+  dns_stack_pihole:
+    external: true
+
+networks:
+  dns_stack_bridge:
+    name: dns_stack_bridge
