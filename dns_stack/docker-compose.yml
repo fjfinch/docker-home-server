@@ -1,12 +1,20 @@
 version: '3'
 
+volumes:
+  volume_pihole:
+    external: true
+
+networks:
+  bridge_dns_stack:
+    name: bridge_dns_stack
+
 services:
   pihole:
     image: pihole/pihole:latest
     container_name: pihole
     hostname: pihole
     networks:
-      - dns_stack_bridge
+      - bridge_dns_stack
     ports:
       - 53:53/tcp
       - 53:53/udp
@@ -26,14 +34,14 @@ services:
       WEBTHEME: default-darker
     volumes:
       - ./pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/
-      - dns_stack_pihole:/etc/pihole/
+      - volume_pihole:/etc/pihole/
 
   unbound:
     image: mvance/unbound-rpi:latest
     container_name: unbound
     hostname: unbound
     networks:
-      - dns_stack_bridge
+      - bridge_dns_stack
     expose:
       - 53/tcp
       - 53/udp
@@ -44,11 +52,3 @@ services:
       - ./unbound/unbound.conf:/opt/unbound/etc/unbound/unbound.conf
     cap_add:
       - NET_ADMIN # needed?
-
-volumes:
-  dns_stack_pihole:
-    external: true
-
-networks:
-  dns_stack_bridge:
-    name: dns_stack_bridge
