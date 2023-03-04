@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -67,11 +67,12 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 1
       },
       "id": 7,
+      "interval": "60",
       "options": {
         "colorMode": "none",
         "graphMode": "none",
@@ -106,110 +107,12 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "datasource_prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "Temperature (°C)",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "celsius"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 4
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "last"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "datasource_prometheus"
-          },
-          "editorMode": "code",
-          "expr": "node_hwmon_temp_celsius{instance=\"node_exporter:9100\"}",
-          "hide": false,
-          "legendFormat": "Sensor - {{sensor}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Temperature",
-      "transformations": [],
-      "type": "timeseries"
-    },
-    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 4
       },
       "id": 20,
       "panels": [],
@@ -233,8 +136,8 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 7,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -260,6 +163,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -277,9 +181,11 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 5
       },
       "id": 9,
+      "interval": "60",
+      "maxDataPoints": -1,
       "options": {
         "legend": {
           "calcs": [
@@ -292,7 +198,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -303,11 +209,11 @@
             "uid": "datasource_prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(irate(node_cpu_seconds_total{instance=\"node_exporter:9100\", mode!=\"idle\"}[$__rate_interval])) / sum(irate(node_cpu_seconds_total{instance=\"node_exporter:9100\"}[$__rate_interval]))",
-          "hide": false,
-          "legendFormat": "Average all cores",
+          "expr": "sum by (cpu) (irate(node_cpu_seconds_total{instance=\"node_exporter:9100\", mode!=\"idle\"}[$__rate_interval])) / sum by (cpu) (irate(node_cpu_seconds_total{instance=\"node_exporter:9100\"}[$__rate_interval]))",
+          "hide": true,
+          "legendFormat": "Core {{cpu}}",
           "range": true,
-          "refId": "same?"
+          "refId": "C"
         },
         {
           "datasource": {
@@ -315,11 +221,11 @@
             "uid": "datasource_prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by (cpu) (irate(node_cpu_seconds_total{instance=\"node_exporter:9100\", mode!=\"idle\"}[$__rate_interval])) / sum by (cpu) (irate(node_cpu_seconds_total{instance=\"node_exporter:9100\"}[$__rate_interval]))",
+          "expr": "sum(irate(node_cpu_seconds_total{instance=\"node_exporter:9100\", mode!=\"idle\"}[$__rate_interval])) / sum(irate(node_cpu_seconds_total{instance=\"node_exporter:9100\"}[$__rate_interval]))",
           "hide": false,
-          "legendFormat": "Core {{cpu}}",
+          "legendFormat": "Average all cores",
           "range": true,
-          "refId": "per core (cpu)"
+          "refId": "D"
         }
       ],
       "title": "CPU utilization",
@@ -343,8 +249,8 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 7,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -370,6 +276,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -387,9 +294,11 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 5
       },
       "id": 6,
+      "interval": "60",
+      "maxDataPoints": -1,
       "options": {
         "legend": {
           "calcs": [
@@ -402,7 +311,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -454,7 +363,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 14
       },
       "id": 18,
       "panels": [],
@@ -478,8 +387,8 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 7,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -505,6 +414,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -522,9 +432,11 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 15
       },
       "id": 12,
+      "interval": "60",
+      "maxDataPoints": -1,
       "options": {
         "legend": {
           "calcs": [
@@ -537,7 +449,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -576,8 +488,8 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 7,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -614,15 +526,30 @@
           },
           "unit": "Bps"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "custom.transform",
+                "value": "negative-Y"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 24
+        "y": 15
       },
       "id": 10,
+      "interval": "60",
+      "maxDataPoints": -1,
       "options": {
         "legend": {
           "calcs": [
@@ -635,7 +562,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -686,8 +613,8 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 7,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -713,6 +640,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -749,6 +677,17 @@
                   "fixedColor": "dark-red",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "custom.gradientMode",
+                "value": "none"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "min"
               }
             ]
           }
@@ -758,9 +697,11 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 33
+        "y": 24
       },
       "id": 3,
+      "interval": "60",
+      "maxDataPoints": -1,
       "options": {
         "legend": {
           "calcs": [
@@ -773,7 +714,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -832,7 +773,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 42
+        "y": 33
       },
       "id": 16,
       "panels": [],
@@ -856,8 +797,8 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 7,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -883,12 +824,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -919,6 +860,17 @@
                   "fixedColor": "dark-red",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "custom.gradientMode",
+                "value": "none"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "min"
               }
             ]
           }
@@ -928,9 +880,11 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 43
+        "y": 34
       },
       "id": 2,
+      "interval": "60",
+      "maxDataPoints": -1,
       "options": {
         "legend": {
           "calcs": [
@@ -943,7 +897,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -995,9 +949,122 @@
       "title": "Memory capacity",
       "transformations": [],
       "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 43
+      },
+      "id": 24,
+      "panels": [],
+      "title": "Temperature",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "datasource_prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Temperature (°C)",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 7,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 44
+      },
+      "id": 4,
+      "interval": "60",
+      "maxDataPoints": -1,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "datasource_prometheus"
+          },
+          "editorMode": "code",
+          "expr": "node_hwmon_temp_celsius{instance=\"node_exporter:9100\"}",
+          "hide": false,
+          "legendFormat": "Sensor - {{sensor}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Temperature",
+      "transformations": [],
+      "type": "timeseries"
     }
   ],
-  "refresh": "10s",
+  "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
   "tags": [],
@@ -1010,8 +1077,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "monitoring_host",
+  "title": "node-exporter",
   "uid": "giYa3z14k",
-  "version": 59,
+  "version": 35,
   "weekStart": ""
 }
