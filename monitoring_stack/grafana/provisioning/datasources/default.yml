@@ -6,6 +6,6 @@ deleteDatasources:
 datasources:
   - name: 'datasource_prometheus'
     type: prometheus
-    url: http://prometheus:9090
+    url: 'http://prometheus:9090'
     uid: 'datasource_prometheus'
     editable: true
