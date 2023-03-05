@@ -1,5 +1,8 @@
---pihole
-sudo docker volume create dns_stack_pihole
+--// Raspberry Pi
+
+
+--// pihole
+sudo docker volume create volume_pihole
 sudo pihole -a -p
 add block lists
 	https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt			Advertising
@@ -14,22 +17,25 @@ add whitelist domains
 	self.events.data.microsoft.com
 update gravity
 
---unbound
+--// unbound
 
---grafana
-sudo docker volume create monitoring_stack_grafana
+--// grafana
+sudo docker volume create volume_grafana
 
---prometheus
-sudo docker volume create monitoring_stack_prometheus
+--// prometheus
+sudo docker volume create volume_prometheus
 
---node_exporter
+--// node_exporter
+
+--// speedtest-exporter
+
+--// portainer
+sudo docker volume create volume_portainer
 
 
-timouts and intervals testen
-prometheus config
-node exporter config
-github
-ansible
+
+
+
 
 docker-home-server
 └── docker
