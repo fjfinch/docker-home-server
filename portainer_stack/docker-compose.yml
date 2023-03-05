@@ -1,0 +1,25 @@
+version: '3'
+
+volumes:
+  volume_portainer:
+    external: true
+
+networks:
+  bridge_portainer_stack:
+    name: bridge_portainer_stack
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    hostname: portainer
+    networks:
+      - bridge_portainer_stack
+    ports:
+      - 9443:9443/tcp
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Amsterdam
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - volume_portainer:/data
