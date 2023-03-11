@@ -64,7 +64,7 @@ services:
       - '--path.rootfs=/host'
 
   speedtest-exporter:
-    image: miguelndecarvalho/speedtest-exporter
+    image: miguelndecarvalho/speedtest-exporter:latest
     container_name: speedtest-exporter
     hostname: speedtest-exporter
     networks:
@@ -81,26 +81,14 @@ services:
     hostname: cadvisor
     networks:
       - bridge_monitoring_stack
-    ports:
-      - 8080:8080/tcp
+    expose:
+      - 8080/tcp
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk:/dev/disk/:ro
-    restart: unless-stopped
-    environment:
-      TZ: Europe/Amsterdam
-
-  redis:
-    image: redis:latest
-    container_name: redis
-    hostname: redis
-    networks:
-      - bridge_monitoring_stack
-    ports:
-      - 6379:6379/tcp
     restart: unless-stopped
     environment:
       TZ: Europe/Amsterdam

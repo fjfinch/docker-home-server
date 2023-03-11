@@ -24,14 +24,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "datasource_prometheus"
+        "uid": "prometheus_datasource_speedtest-exporter"
       },
       "description": "",
       "fieldConfig": {
@@ -116,7 +116,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "datasource_prometheus"
+            "uid": "prometheus_datasource_speedtest-exporter"
           },
           "editorMode": "code",
           "expr": "speedtest_download_bits_per_second{instance=\"speedtest-exporter:9798\"}",
@@ -131,7 +131,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "datasource_prometheus"
+        "uid": "prometheus_datasource_speedtest-exporter"
       },
       "description": "",
       "fieldConfig": {
@@ -216,7 +216,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "datasource_prometheus"
+            "uid": "prometheus_datasource_speedtest-exporter"
           },
           "editorMode": "code",
           "expr": "speedtest_ping_latency_milliseconds{instance=\"speedtest-exporter:9798\"}",
@@ -227,7 +227,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "datasource_prometheus"
+            "uid": "prometheus_datasource_speedtest-exporter"
           },
           "editorMode": "code",
           "expr": "speedtest_jitter_latency_milliseconds{instance=\"speedtest-exporter:9798\"}",
@@ -243,7 +243,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "datasource_prometheus"
+        "uid": "prometheus_datasource_speedtest-exporter"
       },
       "description": "",
       "fieldConfig": {
@@ -328,7 +328,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "datasource_prometheus"
+            "uid": "prometheus_datasource_speedtest-exporter"
           },
           "editorMode": "code",
           "expr": "speedtest_upload_bits_per_second{instance=\"speedtest-exporter:9798\"}",
@@ -356,6 +356,6 @@
   "timezone": "",
   "title": "speedtest-exporter",
   "uid": "HtZc7PJ4k",
-  "version": 21,
+  "version": 3,
   "weekStart": ""
 }

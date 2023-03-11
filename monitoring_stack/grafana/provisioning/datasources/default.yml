@@ -1,11 +1,22 @@
 apiVersion: 1
 
 deleteDatasources:
-  - name: 'datasource_prometheus'
+  - name: 'prometheus_datasource_global'
+  - name: 'prometheus_datasource_speedtest-exporter'
 
 datasources:
-  - name: 'datasource_prometheus'
-    type: prometheus
+  - name: 'prometheus_datasource_global'
+    uid: 'prometheus_datasource_global'
     url: 'http://prometheus:9090'
-    uid: 'datasource_prometheus'
+    type: prometheus
     editable: true
+    jsonData:
+      timeInterval: 60s
+
+  - name: 'prometheus_datasource_speedtest-exporter'
+    uid: 'prometheus_datasource_speedtest-exporter'
+    url: 'http://prometheus:9090'
+    type: prometheus
+    editable: true
+    jsonData:
+      timeInterval: 900s
