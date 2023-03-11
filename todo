@@ -1,5 +1,4 @@
---// Raspberry Pi
-
+--// raspberry pi
 
 --// pihole
 sudo docker volume create volume_pihole
@@ -17,17 +16,11 @@ add whitelist domains
 	self.events.data.microsoft.com
 update gravity
 
---// unbound
-
 --// grafana
 sudo docker volume create volume_grafana
 
 --// prometheus
 sudo docker volume create volume_prometheus
-
---// node_exporter
-
---// speedtest-exporter
 
 --// portainer
 sudo docker volume create volume_portainer
@@ -38,13 +31,12 @@ sudo docker volume create volume_portainer
 
 
 docker-home-server
-└── docker
-    ├── stack_dns
-    │   ├── pihole
-    │   └── unbound
-    └── stack_monitoring
-        ├── grafana
-        └── prometheus
-            node exporter
-            speedtest-cli?
-    ansible
+├── dns_stack
+│   ├── pihole (DNS sinkhole - adblocker)
+│   └── unbound (recursive DNS server)
+└── monitoring_stack
+    ├── grafana (dashboards)
+    ├── prometheus (database)
+    ├── node_exporter (host data)
+    ├── cadvisor (docker data)
+    └── speedtest-exporter (network speed data)
