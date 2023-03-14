@@ -16,6 +16,40 @@ docker-home-server
 ```
 
 ## Install
+Configure Raspberry Pi:
+```bash
+sudo apt update
+sudo apt upgrade
+sudo sed -r -i.orig 's/#?DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
+sudo rm /etc/resolv.conf && sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
+sudo systemctl restart systemd-resolved
+sudo nano /etc/netplan/static_ip.yaml
+sudo netplan apply
+sudo apt install openssh-server
+sudo apt install git
+sudo apt install docker-compose
+<ME OWN TERMINAL CONFIGS>
+reboot
+```
+
+static_ip.yaml for netplan:
+```yaml
+network:
+    version: 2
+    renderer: networkd
+    ethernets:
+        <NETWORK_ADAPTER>:
+            addresses:
+                - <IP>/<SUBNETMASK>
+            routes:
+                - to: default
+                  via: <GATEWAY_IP>
+            nameservers:
+                addresses:
+                    - 127.0.0.1
+```
+
+
 Clone this repository:
 ```bash
 git clone https://github.com/fjfinch/docker-home-server.git
@@ -24,6 +58,7 @@ git clone https://github.com/fjfinch/docker-home-server.git
 Configure dns stack:
 ```bash
 sudo docker volume create volume_pihole
+sudo nano .env
 sudo docker-compose up -d
 sudo docker exec -it pihole sudo pihole -a -p
 
@@ -52,4 +87,13 @@ Configure portainer:
 ```bash
 sudo docker volume create volume_portainer
 sudo docker-compose up -d
+```
+
+
+## Update
+```bash
+sudo docker pull <IMAGE>
+#sudo docker rm -f <CONTAINER>
+sudo docker-compose up -d
+sudo docker image prune -a
 ```
