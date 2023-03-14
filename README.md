@@ -26,6 +26,7 @@ Configure dns stack:
 sudo docker volume create volume_pihole
 sudo docker-compose up -d
 sudo docker exec -it pihole sudo pihole -a -p
+
 (GUI) add block lists
     https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt                  - Advertising
     https://v.firebog.net/hosts/AdguardDNS.txt                                                  - Advertising
@@ -36,6 +37,7 @@ sudo docker exec -it pihole sudo pihole -a -p
     edge.activity.windows.com
     s.shopify.com
     self.events.data.microsoft.com
+
 sudo docker exec -it pihole pihole updateGravity
 ```
 
