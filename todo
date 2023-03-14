@@ -31,10 +31,10 @@ sudo docker volume create volume_portainer
 
 
 docker-home-server
-├── dns_stack
+├── dns
 │   ├── pihole (DNS sinkhole - adblocker)
 │   └── unbound (recursive DNS server)
-└── monitoring_stack
+└── monitoring
     ├── grafana (dashboards)
     ├── prometheus (database)
     ├── node_exporter (host data)
