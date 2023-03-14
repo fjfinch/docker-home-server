@@ -17,11 +17,12 @@ docker-home-server
 
 ## Install
 Clone this repository:
-
+```bash
 git clone https://github.com/fjfinch/docker-home-server.git
-
-Pi-hole:
 ```
+
+Configure pihole:
+```bash
 sudo docker volume create volume_pihole
 sudo docker exec -it pihole sudo pihole -a -p
 (GUI) add block lists
@@ -38,17 +39,17 @@ sudo docker exec -it pihole sudo pihole -a -p
 sudo docker exec -it pihole pihole updateGravity
 ```
 
-Grafana:
-```
+Configure grafana:
+```bash
 sudo docker volume create volume_grafana
 ```
 
-Prometheus:
-```
+Configure prometheus:
+```bash
 sudo docker volume create volume_prometheus
 ```
 
-Portainer:
-```
+Configure portainer:
+```bash
 sudo docker volume create volume_portainer
 ```
